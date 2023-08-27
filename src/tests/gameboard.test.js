@@ -53,3 +53,83 @@ test("should hit all ships and return true for all ships sunk", () => {
   myGameboard.receiveAttack([1, 3]);
   expect(myGameboard.allSunk()).toBe(true);
 });
+
+test("should return illegal moves as none", () => {
+  expect(myGameboard.getIllegalMoves().length).toBe(0);
+});
+
+test("should return illegal moves as 1, the one that hit", () => {
+  myGameboard.receiveAttack([1, 1]);
+  expect(myGameboard.getIllegalMoves()).toContainEqual([1, 1]);
+});
+
+test("should return illegal moves as 1, the one that missed", () => {
+  myGameboard.receiveAttack([5, 5]);
+  expect(myGameboard.getIllegalMoves()).toContainEqual([5, 5]);
+});
+
+test("should return illegal around ship", () => {
+  myGameboard.placeShip([
+    [5, 5],
+    [5, 6],
+    [5, 7],
+  ]);
+  const shouldHave = [
+    [5, 4],
+    [5, 8],
+    [6, 4],
+    [6, 5],
+    [6, 6],
+    [6, 7],
+    [6, 8],
+    [4, 4],
+    [4, 5],
+    [4, 6],
+    [4, 7],
+    [4, 8],
+    [5, 5],
+    [5, 6],
+    [5, 7],
+  ];
+  myGameboard.receiveAttack([5, 5]);
+  myGameboard.receiveAttack([5, 6]);
+  myGameboard.receiveAttack([5, 7]);
+
+  shouldHave.map((move) =>
+    expect(myGameboard.getIllegalMoves()).toContainEqual(move)
+  );
+});
+
+test("should return illegal moves not including out of bounds", () => {
+  myGameboard.placeShip([
+    [8, 0],
+    [9, 0],
+    [10, 0],
+  ]);
+  myGameboard.receiveAttack([8, 0]);
+  myGameboard.receiveAttack([9, 0]);
+  myGameboard.receiveAttack([10, 0]);
+  const shouldHave = [
+    [7, 0],
+    [8, 0],
+    [9, 0],
+    [10, 0],
+    [7, 1],
+    [8, 1],
+    [9, 1],
+    [10, 1],
+  ];
+  const shouldntHave = [
+    [7, -1],
+    [8, -1],
+    [9, -1],
+    [10, -1],
+    [11, 0],
+  ];
+  shouldHave.map((move) =>
+    expect(myGameboard.getIllegalMoves()).toContainEqual(move)
+  );
+  shouldntHave.map((move) =>
+    expect(myGameboard.getIllegalMoves()).not.toContainEqual(move)
+  );
+});
