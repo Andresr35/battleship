@@ -40,6 +40,7 @@ test("should return missed shot at [3,3] in array", () => {
   myGameboard.receiveAttack([3, 3]);
   expect(myGameboard.getShots()).toContainEqual([3, 3]);
 });
+
 test("should return if all ships are sunk, false", () => {
   expect(myGameboard.allSunk()).toBe(false);
 });
@@ -104,20 +105,20 @@ test("should return illegal moves not including out of bounds", () => {
   myGameboard.placeShip([
     [8, 0],
     [9, 0],
-    [10, 0],
+    [7, 0],
   ]);
   myGameboard.receiveAttack([8, 0]);
   myGameboard.receiveAttack([9, 0]);
-  myGameboard.receiveAttack([10, 0]);
+  myGameboard.receiveAttack([7, 0]);
   const shouldHave = [
     [7, 0],
     [8, 0],
     [9, 0],
-    [10, 0],
     [7, 1],
     [8, 1],
     [9, 1],
-    [10, 1],
+    [6, 1],
+    [6, 0],
   ];
   const shouldntHave = [
     [7, -1],

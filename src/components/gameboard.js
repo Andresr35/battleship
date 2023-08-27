@@ -36,9 +36,9 @@ const Gameboard = () => {
         !ship.coords.some(
           (shipCoord) => shipCoord.toString() === move.toString()
         ) &&
-        move[0] <= 10 &&
+        move[0] < 10 &&
         move[0] >= 0 &&
-        move[1] <= 10 &&
+        move[1] < 10 &&
         move[1] >= 0
     );
 
