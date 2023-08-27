@@ -1,9 +1,17 @@
 import Gameboard from "./gameboard";
 
 const Player = (gameboard = Gameboard()) => {
-  const sendAttack = (enemyGameboard, coord) => {
-    enemyGameboard.recieveAttack(coord);
-  };
+  /**
+   * Sends attack to gameboard, and will return whether it hit a ship or not
+   *
+   * @param   {Gameboard}       enemyGameboard
+   * @param   {Array}  Gameboard       coordinates to send attack at
+   *
+   * @return  {boolean}                           return whether it hit a ship or not
+   */
+  const sendAttack = (enemyGameboard = Gameboard(), coord = []) =>
+    enemyGameboard.receiveAttack(coord);
+
   const sendRandomAttack = (enemyGameboard = Gameboard()) => {
     const legalMoves = [];
     const illegalMoves = enemyGameboard.getIllegalMoves();
@@ -15,10 +23,9 @@ const Player = (gameboard = Gameboard()) => {
         if (!isIllegal) legalMoves.push([i, j]);
       }
     }
+    const attack = legalMoves[Math.floor(Math.random()) * legalMoves.length];
 
-    enemyGameboard.receiveAttack(
-      legalMoves[Math.floor(Math.random()) * legalMoves.length]
-    );
+    return sendAttack(enemyGameboard, attack);
   };
   return { gameboard, sendAttack, sendRandomAttack };
 };

@@ -7,7 +7,7 @@ const Gameboard = () => {
   const illegalMoves = [];
   const getShots = () => shots;
   const getShips = () => ships;
-  const getIllegalMoves = () => _.uniqWith(illegalMoves, _.isEqual());
+  const getIllegalMoves = () => _.uniqWith(illegalMoves, _.isEqual);
 
   const getMovesAroundShip = (ship = Ship(3)) => {
     const offsets = [
@@ -54,6 +54,14 @@ const Gameboard = () => {
     illegalMoves.push(...getMovesAroundShip(ship));
   };
 
+  /**
+   * Grabs the coord and checks to see if it hit a ship.
+   * If it hit a ship will return true
+   *
+   * @param   {Array}  coord  coord that gameboard will be hit at
+   *
+   * @return  {boolean}         boolean of whether it hit a ship or not
+   */
   const receiveAttack = (coord) => {
     const hitShip = ships.some((ship) =>
       ship.coords.some((shipCoord) => {
