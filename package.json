@@ -9,11 +9,6 @@
     "build": "webpack",
     "send": "git subtree push --prefix dist origin gh-pages"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Andresr35/battleship.git"
