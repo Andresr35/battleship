@@ -8,7 +8,7 @@ const myPlayer = Player(myGameboard);
 
 beforeEach(() => {
   myGameboard = Gameboard();
-  myGameboard.placeShip([
+  myPlayer.gameboard.placeShip([
     [0, 1],
     [0, 2],
     [0, 3],

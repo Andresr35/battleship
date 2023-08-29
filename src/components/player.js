@@ -1,5 +1,12 @@
 import Gameboard from "./gameboard";
 
+/**
+ * Player for battleship game
+ *
+ * @param   {Gameboard}  gameboard  this players gameboard
+ *
+ *
+ */
 const Player = (gameboard = Gameboard()) => {
   /**
    * Sends attack to gameboard, and will return whether it hit a ship or not

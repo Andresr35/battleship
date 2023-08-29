@@ -1,11 +1,15 @@
 import _ from "lodash";
 import Ship from "./ship";
 
+/**
+ * Gameboard for each player
+ *
+ */
 const Gameboard = () => {
   const ships = [];
-  const shots = [];
+  const shots = []; // any missed shots
   const illegalMoves = [];
-  const getShots = () => shots;
+  const getMissedShots = () => shots;
   const getShips = () => ships;
   const getIllegalMoves = () => _.uniqWith(illegalMoves, _.isEqual);
 
@@ -84,7 +88,7 @@ const Gameboard = () => {
     placeShip,
     receiveAttack,
     allSunk,
-    getShots,
+    getMissedShots,
     getShips,
     getIllegalMoves,
   };

@@ -38,7 +38,7 @@ test("should sink ship and remove", () => {
 
 test("should return missed shot at [3,3] in array", () => {
   myGameboard.receiveAttack([3, 3]);
-  expect(myGameboard.getShots()).toContainEqual([3, 3]);
+  expect(myGameboard.getMissedShots()).toContainEqual([3, 3]);
 });
 
 test("should return if all ships are sunk, false", () => {
