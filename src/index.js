@@ -6,20 +6,15 @@ import Gameboard from "./components/gameboard";
 // the player objects that get initialized by startGame
 let myPlayer;
 let computer;
-let turn = myPlayer;
 
-const switchTurn = () => {
-  if (turn === myPlayer) {
-    turn = computer;
-  } else {
-    turn = myPlayer;
+const winGame = () => {
+  if (myPlayer.gameboard.allSunk()) {
+    // write code here to show that computer won
+    alert("computer won");
+  } else if (computer.gameboard.allSunk()) {
+    // write code here to show that the player won
+    alert("player won");
   }
-};
-
-const handleTurn = (e) => {
-  e.preventDefault();
-  console.log(e.target.id);
-  console.log(myPlayer.sendAttack(computer.gameboard, e.target.id));
 };
 
 const startGame = () => {
@@ -27,6 +22,15 @@ const startGame = () => {
   const computerGameboard = Gameboard();
   myPlayer = Player(myGameboard);
   computer = Player(computerGameboard);
+  myPlayer.gameboard.renderGameboard(document.querySelector(".container"));
+  computer.gameboard.renderCompGameboard(
+    document.querySelector(".container"),
+    () => {
+      const res = computer.sendRandomAttack(myPlayer.gameboard);
+      document.getElementById(`p[${res.coord}]`).innerText = "X";
+    },
+    winGame
+  );
   myPlayer.gameboard.placeShip([
     [1, 1],
     [1, 2],
@@ -62,30 +66,4 @@ const startGame = () => {
   ]);
 };
 
-const renderGameboards = (container) => {
-  const playerLabel = container.appendChild(document.createElement("span"));
-  playerLabel.innerHTML = "Player";
-  const computerLabel = container.appendChild(document.createElement("span"));
-  computerLabel.innerHTML = "Computer";
-  const playerGameboardContainer = container.appendChild(
-    document.createElement("div")
-  );
-  const computerGameboardContainer = container.appendChild(
-    document.createElement("div")
-  );
-
-  for (let i = 99; i >= 0; i -= 1) {
-    const square = computerGameboardContainer.appendChild(
-      document.createElement("div")
-    );
-    square.addEventListener("click", handleTurn, {
-      once: true,
-    });
-
-    square.id = `[${i < 10 ? i : i % 10},${i < 10 ? "0" : Math.floor(i / 10)}]`;
-    playerGameboardContainer.appendChild(document.createElement("div"));
-  }
-};
-
 startGame();
-renderGameboards(document.querySelector(".container"));

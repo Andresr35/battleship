@@ -84,6 +84,42 @@ const Gameboard = () => {
 
   const allSunk = () => ships.length === 0;
 
+  const renderCompGameboard = (container, computerTurn, checkForWin) => {
+    const computerGameboardContainer = container.appendChild(
+      document.createElement("div")
+    );
+    for (let i = 99; i >= 0; i -= 1) {
+      const square = computerGameboardContainer.appendChild(
+        document.createElement("div")
+      );
+      square.addEventListener(
+        "click",
+        (e) => {
+          e.preventDefault();
+          const coord = JSON.parse(e.target.id);
+          if (receiveAttack(coord)) e.target.innerHTML = "X";
+          computerTurn(); // callback
+          checkForWin();
+        },
+        { once: true }
+      );
+      square.id = `[${i < 10 ? i : i % 10},${
+        i < 10 ? "0" : Math.floor(i / 10)
+      }]`;
+    }
+  };
+
+  const renderGameboard = (container) => {
+    const playerGameboardContainer = container.appendChild(
+      document.createElement("div")
+    );
+    for (let i = 99; i >= 0; i -= 1) {
+      playerGameboardContainer.appendChild(
+        document.createElement("div")
+      ).id = `p[${i < 10 ? i : i % 10},${i < 10 ? "0" : Math.floor(i / 10)}]`;
+    }
+  };
+
   return {
     placeShip,
     receiveAttack,
@@ -91,6 +127,8 @@ const Gameboard = () => {
     getMissedShots,
     getShips,
     getIllegalMoves,
+    renderGameboard,
+    renderCompGameboard,
   };
 };
 

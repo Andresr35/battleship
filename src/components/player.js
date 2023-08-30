@@ -30,10 +30,10 @@ const Player = (gameboard = Gameboard()) => {
         if (!isIllegal) legalMoves.push([i, j]);
       }
     }
-    const attack = legalMoves[Math.floor(Math.random()) * legalMoves.length];
-
-    return sendAttack(enemyGameboard, attack);
+    const attack = legalMoves[Math.floor(Math.random() * legalMoves.length)];
+    return { hit: sendAttack(enemyGameboard, attack), coord: attack };
   };
+
   return { gameboard, sendAttack, sendRandomAttack };
 };
 

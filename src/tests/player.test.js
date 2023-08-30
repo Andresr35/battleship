@@ -45,5 +45,5 @@ test("should attack myplayer gameboard at [2,2] and return true ", () => {
   }
   moves.forEach((move) => computer.sendAttack(myGameboard, move));
 
-  expect(computer.sendRandomAttack(myGameboard)).toBe(true);
+  expect(computer.sendRandomAttack(myGameboard).hit).toBe(true);
 });
