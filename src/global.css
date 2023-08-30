@@ -1,0 +1,24 @@
+:root {
+  box-sizing: border-box;
+}
+.container > span {
+  display: inline;
+  margin: 20vw;
+  justify-items: center;
+}
+.container {
+  width: 100%;
+}
+.container > div {
+  width: 40%;
+  padding: 0 5%;
+  display: inline-grid;
+  direction: rtl;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+.container > div > div {
+  width: 100%;
+  height: 3.3vw;
+  border: 2px solid black;
+}
