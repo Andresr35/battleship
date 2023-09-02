@@ -2,32 +2,72 @@ import "normalize.css";
 import "./global.css";
 import Player from "./components/player";
 import Gameboard from "./components/gameboard";
+import Carrier from "./images/carrier.svg";
+import Destroyer from "./images/destroyer.svg";
+import Patrol from "./images/patrol.svg";
+import Battleship from "./images/battleship.svg";
 
 // the player objects that get initialized by startGame
-let myPlayer;
-let computer;
+
+let startGame = null;
+
+let myGameboard = Gameboard();
+let computerGameboard = Gameboard();
+const myPlayer = Player(myGameboard);
+const computer = Player(computerGameboard);
+
+const placeShipsPage = (player = Player()) => {
+  myGameboard = Gameboard();
+  computerGameboard = Gameboard();
+  const container = document.querySelector(".shipContainer");
+  player.gameboard.renderGameboard(document.querySelector(".container"));
+
+  const carrier = container.appendChild(new Image());
+  carrier.src = Carrier;
+  carrier.id = "carrier";
+  carrier.ondragstart = (event) => {
+    event.dataTransfer.setData("text", event.target.id);
+  };
+  carrier.ondragover = (e) => {
+    e.preventDefault();
+  };
+
+  const destroyer = container.appendChild(new Image());
+  destroyer.src = Destroyer;
+  destroyer.id = "destroyer";
+  const patrol = container.appendChild(new Image());
+  patrol.src = Patrol;
+  patrol.id = "patrol";
+  const battleship = container.appendChild(new Image());
+  battleship.src = Battleship;
+  battleship.id = "battleship";
+  const button = container.appendChild(document.createElement("button"));
+  button.innerText = "Finish";
+
+  button.onclick = () => {
+    startGame();
+  };
+};
 
 const winGame = () => {
   if (myPlayer.gameboard.allSunk()) {
     // write code here to show that computer won
     alert("computer won");
+    startGame();
   } else if (computer.gameboard.allSunk()) {
     // write code here to show that the player won
     alert("player won");
+    startGame();
   }
 };
 
-const startGame = () => {
-  const myGameboard = Gameboard();
-  const computerGameboard = Gameboard();
-  myPlayer = Player(myGameboard);
-  computer = Player(computerGameboard);
+startGame = () => {
+  document.querySelector(".container").replaceChildren();
   myPlayer.gameboard.renderGameboard(document.querySelector(".container"));
   computer.gameboard.renderCompGameboard(
     document.querySelector(".container"),
     () => {
-      const res = computer.sendRandomAttack(myPlayer.gameboard);
-      document.getElementById(`p[${res.coord}]`).innerText = "X";
+      computer.sendRandomAttack(myPlayer.gameboard);
     },
     winGame
   );
@@ -66,4 +106,4 @@ const startGame = () => {
   ]);
 };
 
-startGame();
+placeShipsPage(myPlayer);

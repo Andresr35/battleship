@@ -22,3 +22,16 @@
   height: 3.3vw;
   border: 2px solid black;
 }
+.shipContainer {
+  margin: 0 10%;
+  display: grid;
+  width: 80%;
+  grid-template-columns: 5fr 4fr 3fr 2fr;
+}
+.shipContainer img {
+  width: 100%;
+}
+#battleship {
+  padding-bottom: 40%;
+  transform: rotate(0.5turn);
+}

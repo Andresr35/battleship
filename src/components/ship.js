@@ -12,6 +12,8 @@ const Ship = (length = 3, coords = [[]]) => {
     timesHit += 1;
   };
 
+  const getShipImage = () => shipImage;
+
   const isSunk = () => length === timesHit;
 
   switch (length) {
@@ -28,10 +30,10 @@ const Ship = (length = 3, coords = [[]]) => {
       shipImage.src = Carrier;
       break;
     default:
-      break;
+      throw new Error("Not a correct length for battleship");
   }
 
-  return { length, timesHit, sunk, hit, isSunk, coords };
+  return { length, timesHit, sunk, hit, isSunk, coords, getShipImage };
 };
 
 export default Ship;

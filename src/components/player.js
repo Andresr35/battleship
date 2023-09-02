@@ -16,8 +16,11 @@ const Player = (gameboard = Gameboard()) => {
    *
    * @return  {boolean}                           return whether it hit a ship or not
    */
-  const sendAttack = (enemyGameboard = Gameboard(), coord = []) =>
-    enemyGameboard.receiveAttack(coord);
+  const sendAttack = (
+    enemyGameboard = Gameboard(),
+    coord = [],
+    name = "computer"
+  ) => enemyGameboard.receiveAttack(coord, name);
 
   const sendRandomAttack = (enemyGameboard = Gameboard()) => {
     const legalMoves = [];
@@ -31,7 +34,8 @@ const Player = (gameboard = Gameboard()) => {
       }
     }
     const attack = legalMoves[Math.floor(Math.random() * legalMoves.length)];
-    return { hit: sendAttack(enemyGameboard, attack), coord: attack };
+
+    return { hit: sendAttack(enemyGameboard, attack, "player"), coord: attack };
   };
 
   return { gameboard, sendAttack, sendRandomAttack };

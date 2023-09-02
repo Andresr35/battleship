@@ -8,7 +8,7 @@ import Ship from "./ship";
 const Gameboard = () => {
   const ships = [];
   const shots = []; // any missed shots
-  const illegalMoves = [];
+  const illegalMoves = []; // all shots
   const getMissedShots = () => shots;
   const getShips = () => ships;
   const getIllegalMoves = () => _.uniqWith(illegalMoves, _.isEqual);
@@ -60,17 +60,22 @@ const Gameboard = () => {
 
   /**
    * Grabs the coord and checks to see if it hit a ship.
-   * If it hit a ship will return true
+   * If it hit a ship will return true and will change class to hit
+   * as well as change inner text to x
    *
    * @param   {Array}  coord  coord that gameboard will be hit at
    *
    * @return  {boolean}         boolean of whether it hit a ship or not
    */
-  const receiveAttack = (coord) => {
+  const receiveAttack = (coord, name) => {
     const hitShip = ships.some((ship) =>
       ship.coords.some((shipCoord) => {
         if (coord.toString() === shipCoord.toString()) {
+          // checks to see if ship coord was hit
           ship.hit();
+          document.querySelector(
+            `.${name}Gameboard ._${coord[0]}_${coord[1]}`
+          ).innerHTML = "X";
           if (ship.isSunk()) sinkShip(ship);
           return true;
         }
@@ -88,24 +93,28 @@ const Gameboard = () => {
     const computerGameboardContainer = container.appendChild(
       document.createElement("div")
     );
+    computerGameboardContainer.classList.add("computerGameboard");
     for (let i = 99; i >= 0; i -= 1) {
       const square = computerGameboardContainer.appendChild(
         document.createElement("div")
       );
+
       square.addEventListener(
         "click",
         (e) => {
           e.preventDefault();
-          const coord = JSON.parse(e.target.id);
-          if (receiveAttack(coord)) e.target.innerHTML = "X";
+          const coord = JSON.parse(
+            `[${e.target.className[1]},${e.target.className[3]}]`
+          );
+          receiveAttack(coord, "computer");
           computerTurn(); // callback
           checkForWin();
         },
         { once: true }
       );
-      square.id = `[${i < 10 ? i : i % 10},${
+      square.className = `_${i < 10 ? i : i % 10}_${
         i < 10 ? "0" : Math.floor(i / 10)
-      }]`;
+      }`;
     }
   };
 
@@ -113,10 +122,22 @@ const Gameboard = () => {
     const playerGameboardContainer = container.appendChild(
       document.createElement("div")
     );
+    playerGameboardContainer.classList.add("playerGameboard");
     for (let i = 99; i >= 0; i -= 1) {
-      playerGameboardContainer.appendChild(
+      const square = playerGameboardContainer.appendChild(
         document.createElement("div")
-      ).id = `p[${i < 10 ? i : i % 10},${i < 10 ? "0" : Math.floor(i / 10)}]`;
+      );
+      square.className = `_${i < 10 ? i : i % 10}_${
+        i < 10 ? "0" : Math.floor(i / 10)
+      }`;
+      square.ondrop = (e) => {
+        e.preventDefault();
+        const data = e.dataTransfer.getData("text");
+        e.target.appendChild(document.getElementById(data));
+      };
+      square.ondragover = (e) => {
+        e.preventDefault();
+      };
     }
   };
 
