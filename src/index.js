@@ -61,43 +61,45 @@ const placeShipsPage = (player = Player()) => {
 };
 
 const winGame = () => {
+  const winGameMessage = document.createElement("span");
+  const container = document.querySelector(".container");
+
+  const resetButton = document.createElement("button");
+  resetButton.innerText = "Reset";
+  resetButton.onclick = () => {
+    container.replaceChildren();
+    placeShipsPage();
+  };
   if (myPlayer.gameboard.allSunk()) {
     // write code here to show that computer won
-    alert("computer won");
-    startGame();
+    container.appendChild(winGameMessage);
+    winGameMessage.innerText = "Computer has Won!";
+    container.appendChild(resetButton);
   } else if (computer.gameboard.allSunk()) {
+    container.appendChild(winGameMessage);
     // write code here to show that the player won
-    alert("player won");
-    startGame();
+    winGameMessage.innerText = "Player has won";
+    container.appendChild(resetButton);
   }
 };
 
 startGame = () => {
-  document.querySelector(".container").replaceChildren();
-  myPlayer.gameboard.renderGameboard(document.querySelector(".container"));
+  const container = document.querySelector(".container");
+  container.replaceChildren();
+  document.querySelector(".shipContainer").replaceChildren();
+  const playerSpan = container.appendChild(document.createElement("span"));
+  const computerSpan = container.appendChild(document.createElement("span"));
+  playerSpan.innerText = "Player";
+  computerSpan.innerText = "Computer";
+  myPlayer.gameboard.renderGameboard(container);
   computer.gameboard.renderCompGameboard(
-    document.querySelector(".container"),
+    container,
     () => {
       computer.sendRandomAttack(myPlayer.gameboard);
     },
     winGame
   );
-  myPlayer.gameboard.placeShip([
-    [1, 1],
-    [1, 2],
-    [1, 3],
-  ]);
-  myPlayer.gameboard.placeShip([
-    [3, 3],
-    [4, 3],
-    [5, 3],
-  ]);
-  myPlayer.gameboard.placeShip([
-    [6, 7],
-    [7, 7],
-    [8, 7],
-    [9, 7],
-  ]);
+
   computer.gameboard.placeShip([
     [4, 5],
     [5, 5],

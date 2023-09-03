@@ -132,6 +132,7 @@ const Gameboard = () => {
       square.ondrop = (e) => {
         // Want to set the coordinate as the first in however much the length
         // and the length can not be [x]+length<=10
+        const coord = [];
         e.preventDefault();
         square.classList.remove("dropZone");
         const data = e.dataTransfer.getData("text"); // this is gonna be the type of ship
@@ -141,6 +142,10 @@ const Gameboard = () => {
             for (let j = 0; j < 5; j += 1) {
               currentSquare.classList.add("selected");
               currentSquare = currentSquare.previousElementSibling;
+              coord.push([
+                parseInt(currentSquare.classList.value[1], 10),
+                parseInt(currentSquare.classList.value[3], 10),
+              ]);
             }
           }
         } else if (data === "destroyer") {
@@ -149,6 +154,10 @@ const Gameboard = () => {
             for (let j = 0; j < 4; j += 1) {
               currentSquare.classList.add("selected");
               currentSquare = currentSquare.previousElementSibling;
+              coord.push([
+                parseInt(currentSquare.classList.value[1], 10),
+                parseInt(currentSquare.classList.value[3], 10),
+              ]);
             }
           }
         } else if (data === "patrol") {
@@ -157,6 +166,10 @@ const Gameboard = () => {
             for (let j = 0; j < 3; j += 1) {
               currentSquare.classList.add("selected");
               currentSquare = currentSquare.previousElementSibling;
+              coord.push([
+                parseInt(currentSquare.classList.value[1], 10),
+                parseInt(currentSquare.classList.value[3], 10),
+              ]);
             }
           }
         } else if (data === "battleship") {
@@ -165,9 +178,14 @@ const Gameboard = () => {
             for (let j = 0; j < 2; j += 1) {
               currentSquare.classList.add("selected");
               currentSquare = currentSquare.previousElementSibling;
+              coord.push([
+                parseInt(currentSquare.classList.value[1], 10),
+                parseInt(currentSquare.classList.value[3], 10),
+              ]);
             }
           }
         }
+        placeShip(coord);
       };
       square.ondragover = (e) => {
         e.preventDefault();
