@@ -124,19 +124,61 @@ const Gameboard = () => {
     );
     playerGameboardContainer.classList.add("playerGameboard");
     for (let i = 99; i >= 0; i -= 1) {
-      const square = playerGameboardContainer.appendChild(
-        document.createElement("div")
-      );
+      const square = document.createElement("div");
+      playerGameboardContainer.appendChild(square);
       square.className = `_${i < 10 ? i : i % 10}_${
         i < 10 ? "0" : Math.floor(i / 10)
       }`;
       square.ondrop = (e) => {
+        // Want to set the coordinate as the first in however much the length
+        // and the length can not be [x]+length<=10
         e.preventDefault();
-        const data = e.dataTransfer.getData("text");
-        e.target.appendChild(document.getElementById(data));
+        square.classList.remove("dropZone");
+        const data = e.dataTransfer.getData("text"); // this is gonna be the type of ship
+        if (data === "carrier") {
+          if (5 + parseInt(e.target.classList.value[1], 10) <= 10) {
+            let currentSquare = square;
+            for (let j = 0; j < 5; j += 1) {
+              currentSquare.classList.add("selected");
+              currentSquare = currentSquare.previousElementSibling;
+            }
+          }
+        } else if (data === "destroyer") {
+          if (4 + parseInt(e.target.classList.value[1], 10) <= 10) {
+            let currentSquare = square;
+            for (let j = 0; j < 4; j += 1) {
+              currentSquare.classList.add("selected");
+              currentSquare = currentSquare.previousElementSibling;
+            }
+          }
+        } else if (data === "patrol") {
+          if (3 + parseInt(e.target.classList.value[1], 10) <= 10) {
+            let currentSquare = square;
+            for (let j = 0; j < 3; j += 1) {
+              currentSquare.classList.add("selected");
+              currentSquare = currentSquare.previousElementSibling;
+            }
+          }
+        } else if (data === "battleship") {
+          if (2 + parseInt(e.target.classList.value[1], 10) <= 10) {
+            let currentSquare = square;
+            for (let j = 0; j < 2; j += 1) {
+              currentSquare.classList.add("selected");
+              currentSquare = currentSquare.previousElementSibling;
+            }
+          }
+        }
       };
       square.ondragover = (e) => {
         e.preventDefault();
+      };
+      square.ondragenter = (e) => {
+        e.preventDefault();
+        square.classList.add("dropZone");
+      };
+      square.ondragleave = (e) => {
+        e.preventDefault();
+        square.classList.remove("dropZone");
       };
     }
   };

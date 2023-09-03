@@ -1,7 +1,7 @@
+import Battleship from "../images/battleship.svg";
 import Carrier from "../images/carrier.svg";
 import Destroyer from "../images/destroyer.svg";
 import Patrol from "../images/patrol.svg";
-import Battleship from "../images/battleship.svg";
 
 const Ship = (length = 3, coords = [[]]) => {
   let timesHit = 0;

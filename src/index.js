@@ -16,6 +16,13 @@ let computerGameboard = Gameboard();
 const myPlayer = Player(myGameboard);
 const computer = Player(computerGameboard);
 
+const onDragStart = (e) => {
+  e.dataTransfer.setData("text", e.target.id);
+};
+const onDragOver = (e) => {
+  e.preventDefault();
+};
+
 const placeShipsPage = (player = Player()) => {
   myGameboard = Gameboard();
   computerGameboard = Gameboard();
@@ -25,22 +32,26 @@ const placeShipsPage = (player = Player()) => {
   const carrier = container.appendChild(new Image());
   carrier.src = Carrier;
   carrier.id = "carrier";
-  carrier.ondragstart = (event) => {
-    event.dataTransfer.setData("text", event.target.id);
-  };
-  carrier.ondragover = (e) => {
-    e.preventDefault();
-  };
+  carrier.ondragstart = onDragStart;
+  carrier.ondragover = onDragOver;
 
   const destroyer = container.appendChild(new Image());
   destroyer.src = Destroyer;
   destroyer.id = "destroyer";
+  destroyer.ondragstart = onDragStart;
+  destroyer.ondragover = onDragOver;
+
   const patrol = container.appendChild(new Image());
   patrol.src = Patrol;
   patrol.id = "patrol";
+  patrol.ondragstart = onDragStart;
+  patrol.ondragover = onDragOver;
+
   const battleship = container.appendChild(new Image());
   battleship.src = Battleship;
   battleship.id = "battleship";
+  battleship.ondragstart = onDragStart;
+  battleship.ondragover = onDragOver;
   const button = container.appendChild(document.createElement("button"));
   button.innerText = "Finish";
 

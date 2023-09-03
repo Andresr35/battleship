@@ -35,3 +35,9 @@
   padding-bottom: 40%;
   transform: rotate(0.5turn);
 }
+.dropZone {
+  background-color: grey;
+}
+.selected {
+  background-color: red;
+}

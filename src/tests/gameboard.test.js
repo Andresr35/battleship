@@ -134,3 +134,7 @@ test("should return illegal moves not including out of bounds", () => {
     expect(myGameboard.getIllegalMoves()).not.toContainEqual(move)
   );
 });
+// test("should return 3", () => {
+//   myGameboard.setDragged(3);
+//   expect(myGameboard.getDragged()).toBe(3);
+// });
