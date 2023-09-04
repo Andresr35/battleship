@@ -27,6 +27,9 @@ const placeShipsPage = (player = Player()) => {
   myGameboard = Gameboard();
   computerGameboard = Gameboard();
   const container = document.querySelector(".shipContainer");
+  const placeShipsSpan = document.createElement("span");
+  placeShipsSpan.innerText = "Place one of each ship!";
+  document.querySelector(".container").appendChild(placeShipsSpan);
   player.gameboard.renderGameboard(document.querySelector(".container"));
 
   const carrier = container.appendChild(new Image());
@@ -53,9 +56,10 @@ const placeShipsPage = (player = Player()) => {
   battleship.ondragstart = onDragStart;
   battleship.ondragover = onDragOver;
   const button = container.appendChild(document.createElement("button"));
-  button.innerText = "Finish";
+  button.innerText = "Finish Placing Ships";
 
   button.onclick = () => {
+    placeShipsSpan.remove();
     startGame();
   };
 };

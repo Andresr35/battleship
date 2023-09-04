@@ -79,6 +79,10 @@ const Gameboard = () => {
           if (ship.isSunk()) sinkShip(ship);
           return true;
         }
+        document.querySelector(
+          `.${name}Gameboard ._${coord[0]}_${coord[1]}`
+        ).innerHTML = "O";
+
         return false;
       })
     );
